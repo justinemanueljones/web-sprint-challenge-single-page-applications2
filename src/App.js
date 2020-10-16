@@ -1,19 +1,29 @@
 import React from 'react';
-import {BrowserRouter as Router ,Route} from 'react-router-dom'; //npm install react-router-dom
 
+import NavBar from './components/NavBar';
+import Home from './components/Home';
+import PizzaComponent from './components/PizzaForm';
 
-import NavBar from './components/NavBar'
-import PizzaComponent from './components/PizzaForm'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
+
     <Router>
     <div>
     <NavBar/>
-  <PizzaComponent/>
+<Switch>
+<Route path='/' exact component={Home}/>
+    <Route path='/Order' component={PizzaComponent}/>
+</Switch>
+    
+   
     </div>
     </Router>
+
   );
 }
+
+
 
 export default App;

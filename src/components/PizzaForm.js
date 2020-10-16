@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from 'react'
-import * as yup from 'yup'
+import React, { useState, useEffect} from 'react';
+import * as yup from 'yup';
+import axios from 'axios';
 
 //form valadation
 const schema = yup.object().shape({
@@ -13,7 +14,7 @@ si: yup.string(),
 
 export default function Pizza() {
 // setting state and check state
-const [ form, setForm ] = useState({ name:'', size:'',peperoni:'',bacon:'',cheese:'',si:'', })
+const [ form, setForm ] = useState({ name:'', size:'',peperoni:false,bacon:false,cheese:true,si:'', })
 const [ disabled,setDisabled ] = useState(true)
 const [ errors, setErrors ] = useState({ name:'', size:'',peperoni:'',bacon:'',cheese:'',si:'', })
 
@@ -30,6 +31,20 @@ const change = event => {
     setFormErrors(name, valueToUse)
     setForm({...form,[name]: valueToUse })
 }
+const submit = event =>{
+   event.preventDefault()
+   const newOrder = {name: form.name.trim() ,size: form.size,
+    peperoni: form.peperoni ,bacon: form.bacon ,cheese: form.cheese ,si: form.si,}
+    axios.post('https://reqres.in/api/users', newOrder)
+    
+    .then(respone=>{
+    setForm({name:'', size:'',peperoni:false,bacon:false,cheese: true,si:'', })
+    })
+    .catch(error=>{
+    
+    })
+}
+
 useEffect (() =>{
 schema.isValid(form).then(valid=>setDisabled(!valid))
 }, [form])
@@ -44,7 +59,7 @@ schema.isValid(form).then(valid=>setDisabled(!valid))
     </div>
             <h2>Build Your Own Pizza</h2>
             <img src="https://github.com/LambdaSchool/web-sprint-challenge-single-page-applications/blob/main/Assets/Pizza.jpg?raw=true" alt="pizza" width="500" height="333"></img>
-        <form>
+        <form onSubmit={submit}>
         <label>
         <h5>Name :</h5>
         <input onChange={change} value={form.name} name='name' type='text'/>
