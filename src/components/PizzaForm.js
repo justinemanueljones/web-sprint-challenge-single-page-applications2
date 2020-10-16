@@ -1,0 +1,86 @@
+import React, { useState, useEffect} from 'react'
+import * as yup from 'yup'
+
+//form valadation
+const schema = yup.object().shape({
+name: yup.string().required('NAME is required').min(3,'NAME must be 3 characters or more'),
+size: yup.string().oneOf(['1','2','3'],'you MUST select a pizza SIZE'),
+peperoni: yup.boolean(),
+bacon: yup.boolean(),
+cheese: yup.boolean().oneOf([true],'you MUST choose cheese '),
+si: yup.string(),
+})
+
+export default function Pizza() {
+// setting state and check state
+const [ form, setForm ] = useState({ name:'', size:'',peperoni:'',bacon:'',cheese:'',si:'', })
+const [ disabled,setDisabled ] = useState(true)
+const [ errors, setErrors ] = useState({ name:'', size:'',peperoni:'',bacon:'',cheese:'',si:'', })
+
+const setFormErrors = (name, value) =>{
+    yup.reach(schema, name).validate(value)
+    .then (()=> setErrors ({...errors, [name]:''}))
+    .catch(err => setErrors ({...errors, [name]: err.errors[0]}))
+}
+
+//drives state
+const change = event => {
+    const { checked, name , value ,type } = event.target
+    const valueToUse = type === 'checkbox' ? checked : value
+    setFormErrors(name, valueToUse)
+    setForm({...form,[name]: valueToUse })
+}
+useEffect (() =>{
+schema.isValid(form).then(valid=>setDisabled(!valid))
+}, [form])
+
+    return (
+        <div>
+        <div style={{
+      color:'red'}}>
+    <div>{errors.name}</div><div>{errors.size}</div>
+    <div>{errors.cheese}</div><div>{errors.si}</div>
+    
+    </div>
+            <h2>Build Your Own Pizza</h2>
+            <img src="https://github.com/LambdaSchool/web-sprint-challenge-single-page-applications/blob/main/Assets/Pizza.jpg?raw=true" alt="pizza" width="500" height="333"></img>
+        <form>
+        <label>
+        <h5>Name :</h5>
+        <input onChange={change} value={form.name} name='name' type='text'/>
+        </label>
+
+        <label>
+        <h5>Pizza Size :</h5>
+        <select onChange={change} value={form.size} name='size'>
+        <option>--select--</option>
+        <option value='1' >small</option>
+        <option value='2' >medium</option>
+        <option value='3'>large</option>
+        </select>
+        </label>
+
+        <h5>Toppings :</h5>
+        <label>Peperoni
+        <input onChange={change} checked={form.peperoni} name='peperoni' type='checkbox'/>
+        </label>
+
+        <label>Bacon
+        <input onChange={change} checked={form.bacon} name='bacon' type='checkbox'/>
+        </label>
+
+        <label>Cheese
+        <input onChange={change} checked={form.cheese} name='cheese' type='checkbox'/>
+        </label>
+
+        <label><h5>Special Instructions :</h5>
+        <textarea onChange={change} value={form.si} name='si' type='textarea'/>
+        </label>
+
+<button disabled={ disabled }>Order</button>
+
+        </form>
+        </div>
+    )
+}
+
