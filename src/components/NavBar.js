@@ -15,7 +15,7 @@ export default function NavBar() {
 <li>Home</li>
 </Link>
 <Link to='/Order'>
-<li>Order Pizza</li>
+<li>Order</li>
 </Link>
 
 </ul>

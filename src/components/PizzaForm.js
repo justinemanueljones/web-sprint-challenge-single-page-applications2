@@ -62,12 +62,12 @@ schema.isValid(form).then(valid=>setDisabled(!valid))
         <form onSubmit={submit}>
         <label>
         <h5>Name :</h5>
-        <input onChange={change} value={form.name} name='name' type='text'/>
+        <input data-cy='name' onChange={change} value={form.name} name='name' type='text'/>
         </label>
 
         <label>
         <h5>Pizza Size :</h5>
-        <select onChange={change} value={form.size} name='size'>
+        <select data-cy='size' onChange={change} value={form.size} name='size'>
         <option>--select--</option>
         <option value='1' >small</option>
         <option value='2' >medium</option>
@@ -77,22 +77,22 @@ schema.isValid(form).then(valid=>setDisabled(!valid))
 
         <h5>Toppings :</h5>
         <label>Peperoni
-        <input onChange={change} checked={form.peperoni} name='peperoni' type='checkbox'/>
+        <input data-cy='pepperoni' onChange={change} checked={form.peperoni} name='peperoni' type='checkbox'/>
         </label>
 
         <label>Bacon
-        <input onChange={change} checked={form.bacon} name='bacon' type='checkbox'/>
+        <input data-cy='bacon' onChange={change} checked={form.bacon} name='bacon' type='checkbox'/>
         </label>
 
         <label>Cheese
-        <input onChange={change} checked={form.cheese} name='cheese' type='checkbox'/>
+        <input data-cy='cheese' onChange={change} checked={form.cheese} name='cheese' type='checkbox'/>
         </label>
 
         <label><h5>Special Instructions :</h5>
-        <textarea onChange={change} value={form.si} name='si' type='textarea'/>
+        <textarea data-cy='si' onChange={change} value={form.si} name='si' type='textarea'/>
         </label>
 
-<button disabled={ disabled }>Order</button>
+<button data-cy='order' disabled={ disabled }>Order</button>
 
         </form>
         </div>

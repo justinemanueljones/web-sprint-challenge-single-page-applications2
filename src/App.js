@@ -16,8 +16,6 @@ function App() {
 <Route path='/' exact component={Home}/>
     <Route path='/Order' component={PizzaComponent}/>
 </Switch>
-    
-   
     </div>
     </Router>
 
